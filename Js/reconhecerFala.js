@@ -19,19 +19,27 @@ function exibeChuteNaTela(chute) {
     elementoChute.innerHTML = `
         <div>Você disse</div>
         <span class="box">${chute}</span>
-        
     `   
     //<div>O número secreto é maior <i class="fa-solid fa-up-long"></i></div>
 }
 
 recognition.addEventListener('end', () => recognition.start())
 
+
 function verificaValorValido(chute){
     const numero = +chute;
 
     if(chuteInvalido(numero)){
-        elementoChute.innerHTML += '<div> Valor inválido </div>';
-        return
+        if (chute.toUpperCase() === "GAME OVER") {
+            document.body.style.backgroundColor = 'red';
+            document.body.innerHTML = `
+            <h2> Que pena não foi dessa vez!</h2>
+            <h3> O número secreto era ${numeroSecreto} </h3>
+            <button id="joga-novamente" class="btn-jogar">Jogar Novamente</button>`;
+        } else {
+
+            elementoChute.innerHTML += '<div>Valor Inválido</div>';
+        }
     }
 
     if(numeroPermitido(numero)){
@@ -39,15 +47,16 @@ function verificaValorValido(chute){
         return
     }
 
+
     if(numero === numeroSecreto){
         document.body.innerHTML = `
         <h2> Parabéns Você Acertou!</h2>
         <h3> O número secreto era ${numeroSecreto} </h3>
         <button id="joga-novamente" class="btn-jogar">Jogar Novamente</button>`;
     }else if (numero > numeroSecreto){
-        elementoChute.innerHTML += `<div>O número secreto é menor <i class="fa-solid fa-down-long"></i></div>`
+        elementoChute.innerHTML += `<div>O número secreto é menor <i class="fa-solid fa-down-long"></i> <br> Diga Game over para desistir</div>`
     } else{
-         elementoChute.innerHTML += `<div>O número secreto é maior <i class="fa-solid fa-up-long"></i></div>`
+         elementoChute.innerHTML += `<div>O número secreto é maior <i class="fa-solid fa-up-long"></i> <br> Diga Game over para desistir</div>`
     }
     
 
